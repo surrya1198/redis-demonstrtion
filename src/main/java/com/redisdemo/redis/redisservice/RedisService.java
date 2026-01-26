@@ -93,4 +93,18 @@ public class RedisService {
 		log.info("All products saved: " + savedProducts);
 		return savedProducts;
 	}
+	
+	public List<Product> getallProduct(){
+		
+		 List<Product>products=redisrepo.findAll();
+		 
+		 if(products.isEmpty()) {
+			 throw new IllegalArgumentException("There are no product avilable to display");
+		 }
+		 else {
+			 return products;
+		 }
+		
+		
+	}
 }

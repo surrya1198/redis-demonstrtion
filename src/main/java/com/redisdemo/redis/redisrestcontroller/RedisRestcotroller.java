@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,11 +37,13 @@ public class RedisRestcotroller {
 	}
 	
 	@GetMapping("/products/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Product> getProductById(@PathVariable Long id) {
 		Product product = redisservice.getProductById(id);
 		return ResponseEntity.ok(product);
 	}
 	@DeleteMapping("/deleteproducts/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Void> deleteProductById(@PathVariable Long id) {
 		redisservice.deleteProductById(id);
 		return ResponseEntity.noContent().build();
@@ -54,6 +57,13 @@ public class RedisRestcotroller {
 	public ResponseEntity<List<Product>> postAllProducts(@RequestBody List<Product> products) {
 		List<Product> products1 = redisservice.saveAllProducts(products);
 		return ResponseEntity.status(HttpStatus.CREATED).body(products1);
+	}
+	
+	@GetMapping("/getallproducts")
+	@PreAuthorize("permitAll()")
+	public ResponseEntity<List<Product>>getallproducts(){
+		
+		return ResponseEntity.ok(redisservice.getallProduct());
 	}
 	
 	
