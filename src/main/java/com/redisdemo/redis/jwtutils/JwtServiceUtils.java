@@ -34,7 +34,7 @@ public class JwtServiceUtils {
 
 	public String genrateToken(String username) {
 		String token = Jwts.builder().subject(username).claims(claim)
-				.expiration(new Date(System.currentTimeMillis() + 1000 * 180)).issuedAt(new Date()).signWith(signkey())
+				.expiration(new Date(System.currentTimeMillis() + 1000 * 1800)).issuedAt(new Date()).signWith(signkey())
 				.compact();
 		return token;
 	}

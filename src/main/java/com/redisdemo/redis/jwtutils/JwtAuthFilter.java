@@ -22,47 +22,48 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
-	
+
 	@Autowired
 	JwtServiceUtils jwt;
-	
+
 	@Autowired
 	AuthenticationManager authmanager;
-	
+
 	@Autowired
 	CustomUserDetailService userDetails;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		
-		if(request.getServletPath().contains("public")) {
-			
+
+		if (request.getServletPath().contains("public")) {
+
 			filterChain.doFilter(request, response);
 		}
 
-			
-		
-		String token=request.getHeader("Authorization");
-		
-		if(token.contains("Bearer")) {
-			
-			 token =token.substring(7);
+		String token = request.getHeader("Authorization");
+
+		if (token.contains("Bearer")) {
+
+			token = token.substring(7);
 		}
-		
+
 		// check wether it is vaild token or not
-		if(jwt.vaildtoken(token)) {
-			
-			
-			UserDetails d=userDetails.loadUserByUsername(jwt.getClaimsSubject(token));
-			Authentication auth=authmanager.authenticate(new UsernamePasswordAuthenticationToken(d.getUsername(), d.getPassword()));
+		if (jwt.vaildtoken(token)) {
+
+			UserDetails d = userDetails.loadUserByUsername(jwt.getClaimsSubject(token));
+//			 Authentication auth=authmanager.authenticate(new
+//			 UsernamePasswordAuthenticationToken(d, d.getPassword(),d.getAuthorities()));
+			UsernamePasswordAuthenticationToken auth=new UsernamePasswordAuthenticationToken(d, d.getPassword(), d.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(auth);
-			
+			//auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+			filterChain.doFilter(request, response);
 		}
-		filterChain.doFilter(request, response);
 		
+
 	}
 
 }

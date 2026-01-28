@@ -31,6 +31,7 @@ public class RedisRestcotroller {
 	}
 	
 	@PostMapping("/createproducts")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Product> createProduct(@RequestBody Product product) {
 		Product savedProduct = redisservice.saveProduct(product);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
