@@ -25,7 +25,7 @@ import com.redisdemo.redis.jwtutils.JwtAuthFilter;
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
-	
+
 	@Lazy
 	@Autowired
 	JwtAuthFilter authFilter;
@@ -35,11 +35,9 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable()).headers(headers -> headers.frameOptions(frame -> frame.disable()))
 				.authorizeHttpRequests(
 						auth -> auth.requestMatchers("/api/users/public/**").permitAll().anyRequest().authenticated())
-				//.sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				
-				.httpBasic(Customizer.withDefaults())
-				.addFilterBefore(authFilter,UsernamePasswordAuthenticationFilter.class);
-		        
+				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+				.httpBasic(Customizer.withDefaults());
 
 		return http.build();
 

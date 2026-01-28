@@ -42,6 +42,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		if (request.getServletPath().contains("public")) {
 
 			filterChain.doFilter(request, response);
+			return;
+		}
+		
+		if(request.getHeader("Authorization").startsWith("Basic")) {
+			
+			filterChain.doFilter(request, response);
+			return;
 		}
 
 		String token = request.getHeader("Authorization");
