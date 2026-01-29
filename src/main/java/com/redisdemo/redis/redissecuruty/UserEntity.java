@@ -1,10 +1,17 @@
 package com.redisdemo.redis.redissecuruty;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.redisdemo.redis.redisentity.Order;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,22 +22,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "users",schema = "redisschema")
+@Table(name = "users", schema = "redisschema")
 public class UserEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@Column(name = "username",nullable = true)
+
+	@Column(name = "username", nullable = true)
 	private String username;
-	
-	@Column(name = "password",nullable = true)
+
+	@Column(name = "password", nullable = true)
 
 	private String password;
-	
-	@Column(name = "role",nullable = true)
+
+	@Column(name = "role", nullable = true)
 
 	private String role;
+    
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+	public List<Order> orders = new ArrayList<>();
 
 }
