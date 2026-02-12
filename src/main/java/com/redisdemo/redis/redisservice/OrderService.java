@@ -1,13 +1,15 @@
 package com.redisdemo.redis.redisservice;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.redisdemo.redis.redisentity.Order;
 import com.redisdemo.redis.redisrepo.OrderRepo;
@@ -45,8 +47,20 @@ public class OrderService {
 
 	}
 
+	public void updateOrder() {
+
+	}
+
+	public void deleteOrder() {
+
+	}
+
+	public void getOrder() {
+	}
+
 	private Double calculateTotalAmount() {
 
 		return Double.MIN_NORMAL;
 	}
+
 }

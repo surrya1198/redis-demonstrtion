@@ -67,6 +67,4 @@ public class RedisRestcotroller {
 		return ResponseEntity.ok(redisservice.getallProduct());
 	}
 	
-	
-
 }
