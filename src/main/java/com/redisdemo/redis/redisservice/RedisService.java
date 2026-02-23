@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import com.redisdemo.redis.redisentity.Product;
@@ -25,13 +29,12 @@ public class RedisService {
 
 		if (product.getPrice() < 0) {
 			throw new IllegalArgumentException("Price cannot be negative");
-		} 
-		if(redisrepo.findbyname(product.getName())!=null) {
-			throw new IllegalArgumentException("Product with name "+product.getName()+" already exists");
 		}
-		else {
+		if (redisrepo.findbyname(product.getName()) != null) {
+			throw new IllegalArgumentException("Product with name " + product.getName() + " already exists");
+		} else {
 			Product savedProduct = new Product(product.getId(), product.getName(), product.getPrice());
-			
+
 			log.info("Product saved: " + savedProduct);
 			redisrepo.save(savedProduct);
 			return savedProduct;
@@ -39,7 +42,7 @@ public class RedisService {
 
 	}
 
-	@Cacheable(value = "products", key = "#id")
+	// @Cacheable(value = "products", key = "#id")
 	public Product getProductById(Long id) {
 
 		if (id <= 0) {
@@ -93,18 +96,19 @@ public class RedisService {
 		log.info("All products saved: " + savedProducts);
 		return savedProducts;
 	}
-	
-	public List<Product> getallProduct(){
+
+	public List<Product> getallProduct() {
+
 		
-		 List<Product>products=redisrepo.findAll();
-		 
-		 if(products.isEmpty()) {
-			 throw new IllegalArgumentException("There are no product avilable to display");
-		 }
-		 else {
-			 return products;
-		 }
-		
-		
+//		Pageable p = PageRequest.of(0, 0,Sort.by(Order.asc("id")));
+//		List<Product> products = redisrepo.findAll(p).getContent();
+		List<Product> products = redisrepo.findAll();
+
+		if (products.isEmpty()) {
+			throw new IllegalArgumentException("There are no product avilable to display");
+		} else {
+			return products;
+		}
+
 	}
 }

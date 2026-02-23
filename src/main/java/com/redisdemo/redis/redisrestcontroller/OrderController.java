@@ -1,7 +1,12 @@
 package com.redisdemo.redis.redisrestcontroller;
 
+import com.redisdemo.redis.dto.OrderDto;
 import com.redisdemo.redis.redisentity.Order;
+import com.redisdemo.redis.redisentity.OrderItem;
 import com.redisdemo.redis.redisservice.OrderService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +26,9 @@ public class OrderController {
     public OrderService orderService;
 
     @PostMapping("/placeorder")
-    public ResponseEntity createOrder(@RequestBody Order order) {
+    public ResponseEntity createOrder(@RequestBody List<Integer>listofproducts) {
 
-        Order createdOrder=orderService.createOrder(order);
+        OrderDto createdOrder=orderService.createOrder(listofproducts);
         return new ResponseEntity(createdOrder, HttpStatus.CREATED);
     }
 

@@ -2,6 +2,7 @@ package com.redisdemo.redis.redisrepo;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -16,7 +17,10 @@ public interface RedisRepo extends JpaRepository<Product, Long> {
 	@Query("SELECT a FROM Product a WHERE a.name= ?1")
 	public Product findbyname(String name);
 	
-	Page<Product> findAll(Pageable pageable);
+	
+	public Page<Product> findAll(Pageable pageable);
+	
+	
 	
 
 }
