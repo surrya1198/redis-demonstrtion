@@ -14,6 +14,14 @@ import jakarta.persistence.Table;
 @Table(name = "products",schema = "redisschema")
 public class Product implements Serializable {
 
+	public String getVendorcode() {
+		return vendorcode;
+	}
+
+	public void setVendorcode(String vendorcode) {
+		this.vendorcode = vendorcode;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(initialValue = 1000, name = "product_seq", sequenceName = "product_seq")
@@ -24,6 +32,9 @@ public class Product implements Serializable {
 
 	@Column(name = "price")
 	public Double price;
+	
+	@Column(name="vendorcode")
+	public String vendorcode;
 
 	public Long getId() {
 		return id;
@@ -49,11 +60,12 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
-	public Product(Long id, String name, Double price) {
+	public Product(Long id, String name, Double price,String vendorcode) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
+		this.vendorcode=vendorcode;
 	}
 	
 	public Product() {
