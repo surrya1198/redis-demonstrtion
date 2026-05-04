@@ -21,6 +21,24 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	
+	@Column(unique = true, nullable =false, name="order_number")
+	private String orderNumber;
+
+	@Column(nullable = false,name = "total_amount")
+	private Double totalAmount;
+
+	@Column(nullable = false,name = "order_date")
+	private LocalDateTime orderDate;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "users", referencedColumnName = "id")
+	private UserEntity user;
+
+	@OneToMany(mappedBy = "order", orphanRemoval = true, cascade = CascadeType.ALL)
+	List<OrderItem> orderItems = new ArrayList<>();
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -68,20 +86,4 @@ public class Order {
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
 	}
-
-	@Column(unique = true, nullable = false)
-	private String orderNumber;
-
-	@Column(nullable = false)
-	private Double totalAmount;
-
-	@Column(nullable = false)
-	private LocalDateTime orderDate;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "users", referencedColumnName = "id")
-	private UserEntity user;
-
-	@OneToMany(mappedBy = "order", orphanRemoval = true, cascade = CascadeType.ALL)
-	List<OrderItem> orderItems = new ArrayList<>();
 }

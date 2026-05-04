@@ -23,7 +23,7 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_number", referencedColumnName = "orderNumber", nullable = false)
+    @JoinColumn(name = "order_number", referencedColumnName = "order_number", nullable = false)
     public Order order;
 
     @ManyToOne(cascade = CascadeType.ALL)
